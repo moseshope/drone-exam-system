@@ -1,0 +1,25 @@
+{
+  "short_name": "TryConcept",
+  "name": "Bring Your Concepts to Life",
+  "icons": [
+    {
+      "src": "/imgs/logo-sm.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/imgs/logo-sm.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/imgs/logo-sm.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "fullscreen",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

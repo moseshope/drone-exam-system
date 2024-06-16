@@ -1,0 +1,384 @@
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono:400');
+
+/* Custom CSS */
+.ant-menu-horizontal .ant-menu-item {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.ant-menu-horizontal .ant-menu-item::after {
+  border: none !important;
+  transition: none !important;
+}
+
+.ant-menu-horizontal:hover .ant-menu-item::after {
+  border: none;
+  transition: none;
+}
+
+.sidebar .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open {
+  background: blue;
+  color: white;
+}
+
+.sidebar .ant-menu-item.ant-menu-item-only-child:not(:last-child) {
+  height: 70px;
+}
+
+.sidebar .ant-menu-item.ant-menu-item-only-child {
+  padding-left: 30px !important;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  /* border-radius: 5px; */
+  background-color: transparent;
+  /* border: 1px solid transparent; */
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: #aaa;
+}
+
+*:hover::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  cursor: pointer;
+}
+
+*:hover::-webkit-scrollbar-track {
+  /* border-radius: 5px; */
+  background-color: transparent;
+  /* border: 1px solid transparent; */
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #999;
+}
+
+.price-card .ant-card-body {
+  height: 100%;
+}
+
+
+/* React Tag Input CSS */
+
+.ReactTags__tags {
+  position: relative;
+}
+
+.ReactTags__clearAll {
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px;
+  background: #f88d8d;
+  color: #fff;
+  border: none;
+}
+
+/* Styles for the input */
+.ReactTags__tagInput {
+  border-radius: 2px;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.ReactTags__tagInput input.ReactTags__tagInputField,
+.ReactTags__tagInput input.ReactTags__tagInputField:focus {
+  /* height: 31px; */
+  padding: 8px 10px;
+  margin: 0;
+  font-size: 16px;
+  border: 1px solid #eee;
+  min-width: 200px;
+  border-radius: 5px;
+  height: 42px;
+}
+
+.ReactTags__editInput {
+  border-radius: 1px;
+}
+
+.ReactTags__editTagInput {
+  display: inline-flex;
+}
+
+/* Styles for selected tags */
+.ReactTags__selected span.ReactTags__tag {
+  /* border: 1px solid #ddd; */
+  /* background: #63bcfd; */
+  color: black;
+  font-size: 16px;
+  display: inline-block;
+  padding: 5px 0;
+  margin: 0 3px;
+  border-radius: 2px;
+  position: relative;
+}
+
+.ReactTags__selected span.ReactTags__tag:hover {
+  /* border: 1px solid #ddd; */
+  background: #63bcfd;
+}
+
+.ReactTags__selected a.ReactTags__remove {
+  color: red;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* Styles for suggestions */
+.ReactTags__suggestions {
+  position: absolute;
+  z-index: 999;
+}
+
+.ReactTags__suggestions ul {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+  box-shadow: 0.05em 0.01em 0.5em rgba(0, 0, 0, 0.2);
+  background: white;
+  width: 200px;
+}
+
+.ReactTags__suggestions li {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0;
+  font-size: 16px;
+}
+
+.ReactTags__suggestions li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+
+.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
+  background: #b7cfe0;
+  cursor: pointer;
+}
+
+.ReactTags__remove {
+  border: 1px solid red;
+  padding: 0 4px 1px;
+  border-radius: 50%;
+  /* background-color: rgb(255, 75, 75); */
+  font-weight: bold;
+  cursor: pointer;
+  color: red;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: none;
+}
+
+.ReactTags__selected span.ReactTags__tag:hover .ReactTags__remove {
+  display: inline;
+}
+
+.ReactTags__error {
+  color: #e03131;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.ReactTags__error svg {
+  padding: 0 5px;
+}
+
+.clip_0 {
+  clip-path: inset(0 50% 50% 0);
+  transform: scale(2) translate(25%, 25%);
+}
+
+.clip_1 {
+  clip-path: inset(0 0 50% 50%);
+  transform: scale(2) translate(-25%, 25%);
+}
+
+.clip_2 {
+  clip-path: inset(50% 50% 0 0);
+  transform: scale(2) translate(25%, -25%);
+}
+
+.clip_3 {
+  clip-path: inset(50% 0 0 50%);
+  transform: scale(2) translate(-25%, -25%);
+}
+
+/* HTML: <span class="loader"></span> */
+.loader {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  position: relative;
+}
+
+.loader::after,
+.loader::before {
+  content: '';
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #0cf317;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: rotation 2s ease-in-out infinite alternate;
+}
+
+.loader::after {
+  border-color: #FF3D00;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader1 {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+
+.loader1::after,
+.loader1::before {
+  content: '';
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border: 2px solid #0cf317;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: rotationBreak 3s ease-in-out infinite alternate;
+}
+
+.loader1::after {
+  border-color: #FF3D00;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes rotationBreak {
+  0% {
+    transform: rotate(0);
+  }
+
+  25% {
+    transform: rotate(90deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(270deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.color-animation {
+  animation: color-change 1s infinite;
+}
+
+@keyframes color-change {
+  0% {
+    color: red;
+  }
+
+  50% {
+    color: blue;
+  }
+
+  100% {
+    color: red;
+  }
+}
+
+
+.effect-1{
+  font-family: 'Fira Mono', monospace;
+  animation: glitch 1s linear infinite;
+}
+
+@keyframes glitch{
+  2%,64%{
+    transform: translate(2px,0) skew(0deg);
+  }
+  4%,60%{
+    transform: translate(-2px,0) skew(0deg);
+  }
+  62%{
+    transform: translate(0,0) skew(5deg); 
+  }
+}
+
+.effect-1:before,
+.effect-1:after{
+  content: attr(title);
+  position: absolute;
+  left: 0;
+}
+
+.effect-1:before{
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+@keyframes glitchTop{
+  2%,64%{
+    transform: translate(2px,-2px);
+  }
+  4%,60%{
+    transform: translate(-2px,2px);
+  }
+  62%{
+    transform: translate(13px,-1px) skew(-13deg); 
+  }
+}
+
+.effect-1:after{
+  animation: glitchBotom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitchBotom{
+  2%,64%{
+    transform: translate(-2px,0);
+  }
+  4%,60%{
+    transform: translate(-2px,0);
+  }
+  62%{
+    transform: translate(-22px,5px) skew(21deg); 
+  }
+}

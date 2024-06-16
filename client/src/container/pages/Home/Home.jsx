@@ -134,6 +134,15 @@ const Home = () => {
     };
   }, [problems]);
 
+  const calcProblemIndex = (data, index) => {
+    let count = 0;
+    for(let i = 1; i <= index; i ++) {
+      let subData = data[`Section${i}`];
+      count += subData.length;
+    }
+    return count;
+  }
+
   const handleMenuClick = (id) => {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
   };
@@ -255,18 +264,19 @@ const Home = () => {
                     <Fragment key={key}>
                       <li className="text-black">* {key}</li>
                       {subProblems.map((prob, index1, items) => {
+                        let count = calcProblemIndex(getProblemsWithCategory()[0], index);
                         return (
                           <li
-                            key={`problem${index * items.length + index1 + 1}`}
+                            key={`problem${count + index1 + 1}`}
                             className={
-                              activeProblem === `problem${index * items.length + index1 + 1}`
+                              activeProblem === `problem${count + index1 + 1}`
                                 ? 'active !pl-10 text-black'
                                 : '!pl-10 text-black'
                             }
                           >
                             <button
-                              onClick={() => handleMenuClick(`problem${index * items.length + index1 + 1}`)}
-                            >{`Question ${index * items.length + index1 + 1}`}</button>
+                              onClick={() => handleMenuClick(`problem${count + index1 + 1}`)}
+                            >{`Question ${count + index1 + 1}`}</button>
                           </li>
                         );
                       })}

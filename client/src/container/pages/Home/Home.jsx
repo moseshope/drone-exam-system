@@ -37,6 +37,7 @@ const Home = () => {
   const [totalScore, setTotalScore] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [tempLimit, setTempLimit] = useState(60);
+  const [sectionLength, setSectionLength] = useState([]);
 
   useEffect(() => {
     if (limit > 0 && timer > 0) {
@@ -137,7 +138,7 @@ const Home = () => {
   const calcProblemIndex = (data, index) => {
     let count = 0;
     for(let i = 1; i <= index; i ++) {
-      let subData = data[`Section${i}`];
+      let subData = data[`Section ${i}`];
       count += subData.length;
     }
     return count;
@@ -164,7 +165,7 @@ const Home = () => {
   const calcScore = () => {
     let tempTotalScore = 0;
     let scorePerSection = new Array(5).fill(0);
-
+    let len = new Array(5).fill(0);
     examProblems.map((examProblem) => {
       let index = parseInt(examProblem.category.match(/\d+/)[0]) - 1;
       if (examProblem.result == examProblem.cor_answer) {
@@ -173,14 +174,15 @@ const Home = () => {
       } else {
         scorePerSection[index] += 0;
       }
+      len[index] += 1;
     });
+    setSectionLength(len);
     let userScore = [];
-    scorePerSection.map((sectionScore, index) => {
-      scorePerSection[index] = Math.floor((scorePerSection[index] * 100) / limit);
-      userScore.push(scorePerSection[index]);
+    scorePerSection.map((sectionScore) => {
+      userScore.push(sectionScore);
     });
     setScore(scorePerSection);
-    setTotalScore(Math.floor((tempTotalScore * 100) / limit));
+    setTotalScore(tempTotalScore);
     userScore.push(Math.floor((tempTotalScore * 100) / limit));
     return userScore;
   };
@@ -292,6 +294,7 @@ const Home = () => {
                 size={[ 270, 10 ]}
                 status="active"
                 className="mb-5"
+                showInfo={false}
               /></>)}
               <div className="flex justify-around">
                 <Button type="primary" size="large" onClick={restartExam} className="finish mr-[20px]">
@@ -416,13 +419,15 @@ const Home = () => {
               {score.map((subScore, index) => (
                 <div key={index}>
                   <p className="!text-[18px]">{`Section ${index + 1}`}</p>
-                  <Progress className="mb-[20px]" type="dashboard" percent={subScore} gapDegree={30} />
+                  <Progress className="mb-[20px]" type="dashboard" percent={Math.floor((subScore * 100) / sectionLength[index])} gapDegree={30} />
+                  <p className="!text-[14px]">{`${subScore} out of ${sectionLength[index]} correct`}</p>
                 </div>
               ))}
             </div>
             <div className="total-score">
               <p>Your total Score</p>
-              <Progress className="mb-[20px]" type="dashboard" percent={totalScore} gapDegree={30} />
+              <Progress className="mb-[20px]" type="dashboard" percent={Math.floor((totalScore * 100) / limit)} gapDegree={30} />
+              <p className="!text-[14px]">{`${totalScore} out of ${limit} correct`}</p>
             </div>
           </Modal>
         }

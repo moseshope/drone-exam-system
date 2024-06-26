@@ -32,7 +32,7 @@ exports.getProblems = async (req, res) => {
           if (index != 4) {
             tempLimit = Math.floor(limit / 5);
           } else if (index == 4) {
-            tempLimit = limit - tempLimit * 5;
+            tempLimit = limit - Math.floor(limit / 5) * 4;
           }
         }
         // Use aggregation to get limit random documents per category

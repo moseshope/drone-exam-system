@@ -178,8 +178,8 @@ const Home = () => {
     });
     setSectionLength(len);
     let userScore = [];
-    scorePerSection.map((sectionScore) => {
-      userScore.push(sectionScore);
+    scorePerSection.map((sectionScore, index) => {
+      userScore.push(Math.floor((sectionScore * 100) / len[index]));
     });
     setScore(scorePerSection);
     setTotalScore(tempTotalScore);
@@ -382,7 +382,7 @@ const Home = () => {
         </div>
         {
           <Modal
-            title={totalScore >= 90 ? 'You’re ready for the FAA Exam!' : 'Try again!'}
+            title={Math.floor((totalScore * 100) / limit) >= 90 ? 'You’re ready for the FAA Exam!' : 'Try again!'}
             open={modalOpen}
             onOk={restartExam}
             onCancel={() => {

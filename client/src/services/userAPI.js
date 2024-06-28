@@ -13,4 +13,10 @@ export const getAllUsers = async (query) => {
   }
 };
 
+export const getUserStatus = () => getRequest("users/getUserStatus");
+
 export const getUserCount = (query) => getRequest("users/getUserCount", query);
+
+export const checkLastStatus = () => getRequest("users/checkLastStatus");
+
+export const updateUserStatus = () => getRequest("users/updateUserStatus");

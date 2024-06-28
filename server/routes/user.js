@@ -12,6 +12,9 @@ router.post("/updatePassword", userController.updatePassword);
 router.post("/deleteAccount", userController.deleteAccount);
 router.post("/upload", upload, userController.upload);
 router.get("/me", userController.getUser);
+router.get('/getUserStatus', userController.getUserStatus);
+router.get('/checkLastStatus', userController.checkLastStatus);
+router.get('/updateUserStatus', userController.updateUserStatus);
 
 router.get("/", checkRoles([ROLES.ADMIN]), userController.getUsers);
 router.get(

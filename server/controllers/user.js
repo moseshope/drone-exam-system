@@ -1,5 +1,6 @@
 const SubscriptionModel = require("../models/subscription");
 const User = require("../models/userModel");
+const ExamModel = require("../models/exam");
 const { delFile } = require("../utils/helpers");
 const { _log, _error } = require("../utils/logging");
 
@@ -175,6 +176,81 @@ exports.getUserCount = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to get total count of user",
+    });
+  }
+};
+
+exports.getUserStatus = async (req, res) => {
+  try {
+    const existUser = await User.findOne({
+      _id: req.user._id
+    });
+    return res.status(200).json({
+      success: true,
+      data: existUser,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get info of user",
+    });
+  }
+};
+
+exports.checkLastStatus = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    let count = 0;
+    const exams = await ExamModel.find({ user: userId })
+        .sort({ createdAt: -1 }) // Sort by creation date in descending order
+        .limit(5) // Limit to the latest 5 exams
+        .select("score"); // Select necessary fields
+    exams.map((exam) => {
+      if(exam.score >= 90) {
+        count ++;
+      }
+    });
+
+    return res.status(200).json({
+      success: true,
+      status: count >= 4 ? true : false,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get info of user",
+    });
+  }
+};
+
+exports.updateUserStatus = async (req, res) => {
+  try {
+    const _id = req.user._id;
+
+    // Ensure the status is updated properly
+    const status = await User.findByIdAndUpdate(
+      _id, 
+      { certStatus: 1 },
+      { new: true }  // To return the updated document
+    );
+
+    if (!status) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Status updated successfully',
+      status: status.status,
+    });
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
     });
   }
 };

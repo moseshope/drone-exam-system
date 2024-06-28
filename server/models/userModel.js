@@ -65,6 +65,10 @@ const UserSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'subscriptions',
     },
+    certStatus: {
+      type: Schema.Types.Number,
+      default: 0
+    }
   },
   {
     timestamps: true,

@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef, Fragment  } from "react";
+import ReactDOM from 'react-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Col, Image, Layout, Row, Typography,  Menu, Radio, Modal, InputNumber, Space, Button, Spin, Flex, Progress } from "antd";
+import Icon, { DownloadOutlined } from '@ant-design/icons';
 import { getStorage, setStorage } from "../../../helpers";
 import '../../.././SyncScroll.css';
 import { saveExam } from "../../../services/examAPI";
 import { getProblems } from "../../../services/problemAPI";
-import axios from 'axios';
+import { getUserStatus } from "../../../services/userAPI";
+import { checkLastStatus } from "../../../services/userAPI";
+import { updateUserStatus } from "../../../services/userAPI";
+import Certificate from "../../../components/Certificate";
 
 const { Content } = Layout;
 
@@ -38,6 +43,34 @@ const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [tempLimit, setTempLimit] = useState(60);
   const [sectionLength, setSectionLength] = useState([]);
+  const [userStatus, setUserStatus] = useState(false);
+  const [username, setUsername] = useState('');
+
+  const user = useSelector(state => state.auth.user);
+
+  useEffect(() => {
+    setUsername(user.name); // Assume you fetch user name and store it in state
+  }, [user]);
+
+  const generateCertificate = () => {
+    if (username) {
+      // Create a new element to mount the Certificate component
+      const certComponent = document.createElement("div");
+      certComponent.id = "cert-component";
+      document.body.appendChild(certComponent);
+  
+      // Render the Certificate component into the newly created div
+      ReactDOM.render(<Certificate userName={username} />, certComponent);
+  
+      // Optionally, remove the component after the download is triggered
+      setTimeout(() => {
+        ReactDOM.unmountComponentAtNode(certComponent);
+        document.body.removeChild(certComponent);
+      }, 5000); // Adjust timeout as necessary
+    } else {
+      console.log("Username not set. Cannot generate certificate.");
+    }
+  };
 
   useEffect(() => {
     if (limit > 0 && timer > 0) {
@@ -135,6 +168,25 @@ const Home = () => {
     };
   }, [problems]);
 
+  useEffect(() => {
+    checkUserStatus();
+    checkStatus();
+  }, []);
+
+  const checkStatus = async () => {
+    const status = await checkLastStatus();
+  };
+
+  const checkUserStatus = async () => {
+    try {
+      const user = await getUserStatus();
+      setUserStatus(user.data.data.certStatus);
+      return user.data.data.certStatus;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const calcProblemIndex = (data, index) => {
     let count = 0;
     for(let i = 1; i <= index; i ++) {
@@ -199,7 +251,7 @@ const Home = () => {
 
   const saveExamination = async (score) => {
     try {
-      if(parseInt(limit) == 60) {
+      if(parseInt(limit) == 11) {
         const res = saveExam({score: score});
       }
     } catch (err) {
@@ -207,12 +259,18 @@ const Home = () => {
     }
   }
 
-  const endExam = () => {
+  const endExam = async () => {
     if (!examStatus) {
       setExamStatus(true);
       let userScore = calcScore();
       setVisibleStatus(true);
       saveExamination(userScore);
+      const lastStatus = await checkLastStatus();
+      const uStatus = await checkUserStatus();
+      if(uStatus == 0 && lastStatus.data.status) {
+        let updateStatus = await updateUserStatus();
+        setUserStatus(true);
+      }
       setTimer(0);
       setModalOpen(true);
     }
@@ -251,6 +309,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+        {userStatus == 1 ? <Button type="primary" onClick={() => generateCertificate()} className="fixed bottom-[160px] right-[25px]" shape="circle" icon={<DownloadOutlined />} size="large"></Button> : <></>}
       </Content>
     );
   } else {
@@ -431,6 +490,7 @@ const Home = () => {
             </div>
           </Modal>
         }
+      {userStatus == 1 ? <Button type="primary" onClick={() => generateCertificate()} className="fixed bottom-[160px] right-[25px]" shape="circle" icon={<DownloadOutlined />} size="large"></Button> : <></>}
       </Content>
     );
   }

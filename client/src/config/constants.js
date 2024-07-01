@@ -9,7 +9,7 @@ const constants = {
     HOST_URL: process.env.REACT_APP_HOST_URL || "/api/",
     stripePK:
       "pk_live_51NJdNuHnQ3da7QZ33oSKsSTWhiuXa43CI3X8DsJKCkikdThO0uiRbEbvmzY1VKdlKNuTlFvLmQkkcrC1HnM9MFaZ000QnQ1Hae",
-    SOCKET_URL: "http://54.79.3.204",
+    SOCKET_URL: "/",
   },
 };
 

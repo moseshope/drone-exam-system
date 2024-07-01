@@ -11,7 +11,7 @@ function Certificate({ userName }) {
           return;
         }
 
-        const cert_url = `${constants.SOCKET_URL}/CertificateTemplate.pdf`;
+        const cert_url = `${constants.SOCKET_URL}CertificateTemplate.pdf`;
         const response = await fetch(cert_url);
         if (!response.ok) {
           console.error('Failed to fetch certificate template:', response.status);

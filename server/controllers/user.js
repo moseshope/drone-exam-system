@@ -254,3 +254,35 @@ exports.updateUserStatus = async (req, res) => {
     });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  try {
+    console.log('-----------------------------', req);
+    const { _id, status } = req.body;
+    // Ensure the status is updated properly
+    const response = await User.findByIdAndUpdate(
+      _id, 
+      { status: status == true ? 1 : 0 },
+      { new: true }  // To return the updated document
+    );
+
+    if (!response) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Status updated successfully',
+      status: status,
+    });
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    });
+  }
+};

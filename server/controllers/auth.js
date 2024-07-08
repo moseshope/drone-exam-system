@@ -32,6 +32,8 @@ exports.register = async (req, res) => {
             });
         }
 
+        const status = 0;
+
         const user = new User({
             name,
             email,
@@ -40,6 +42,7 @@ exports.register = async (req, res) => {
             utm_capmaign,
             utm_medium,
             utm_content,
+            status
         });
 
         await user.save();
@@ -51,9 +54,9 @@ exports.register = async (req, res) => {
             isAdmin: user.permission == 1,
         };
 
-        const access_token = jwt.sign(newUser, config.SecretKey, {
-            expiresIn: config.TOKEN_EXPIRES_IN,
-        });
+        // const access_token = jwt.sign(newUser, config.SecretKey, {
+        //     expiresIn: config.TOKEN_EXPIRES_IN,
+        // });
         // sendEmail({
         //     from: process.env.FROM_ADDRESS,
         //     to: user.email,
@@ -67,7 +70,7 @@ exports.register = async (req, res) => {
         return res.status(200).json({
             success: true,
             user: newUser,
-            token: `jwt ${access_token}`,
+            // token: `jwt ${access_token}`,
         });
     } catch (error) {
         return res.status(400).json({
@@ -82,6 +85,15 @@ exports.login = async (req, res) => {
             success: false,
             errors: {
                 email: "This user deleted account manually. If you want to active this account, please contact to support.",
+            },
+        });
+    }
+
+    if (req.user.status == 0) {
+        return res.status(422).json({
+            success: false,
+            errors: {
+                email: "Please wait until Admin user approve your register request.",
             },
         });
     }

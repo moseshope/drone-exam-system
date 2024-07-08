@@ -15,6 +15,7 @@ router.get("/me", userController.getUser);
 router.get('/getUserStatus', userController.getUserStatus);
 router.get('/checkLastStatus', userController.checkLastStatus);
 router.get('/updateUserStatus', userController.updateUserStatus);
+router.post('/updateUser', checkRoles([ROLES.ADMIN]), userController.updateUser);
 
 router.get("/", checkRoles([ROLES.ADMIN]), userController.getUsers);
 router.get(

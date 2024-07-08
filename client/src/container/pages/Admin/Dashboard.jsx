@@ -111,7 +111,7 @@ function Dashboard() {
   };
 
   return (
-    <Content className="mx-auto p-2 px-5 my-5">
+    <Content className="mx-auto p-2 px-5 my-5 w-full">
       <div className="mb-[50px] flex items-center justify-around text-center">
         <Col >
           <div className="dash-card text-center px-5 py-3">
@@ -126,7 +126,7 @@ function Dashboard() {
           </div>
         </Col>    
       </div>
-      <Row gutter={[64, 64]}>
+      <Row gutter={[64, 64]} style={{'overflow-x': 'auto', "width": '100%'}}>
         <Col sm={12} md={8} lg={6} xl={4}>
           <Search
             placeholder="Name..."

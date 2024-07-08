@@ -16,7 +16,9 @@ import {
   Layout,
   Badge,
   Avatar,
+  Switch
 } from "antd";
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -24,8 +26,9 @@ import { Link } from "react-router-dom";
 import constants from "../../../config/constants";
 import { updatePageState } from "../../../redux/user/userSlice";
 
-import { getAllUsers } from "../../../services/userAPI";
+import { getAllUsers, updateUser } from "../../../services/userAPI";
 import useForm from "../../../Hooks/useForm";
+
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -64,6 +67,19 @@ function Users() {
       </div>
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (_, row) => <div className='flex items-center'>
+        <Switch
+          checkedChildren={<CheckOutlined />}
+          unCheckedChildren={<CloseOutlined />}
+          defaultChecked={row.status}
+          onChange={(e) => updateUserAvailable(e, row._id)}
+        />
+      </div>
+    },
+    {
       title: "Date",
       dataIndex: "createdAt",
       key: "createdAt",
@@ -76,6 +92,19 @@ function Users() {
   useEffect(() => {
     getUsers();
   }, [page, pageSize]);
+
+  const updateUserAvailable = async (value, id) => {
+    let data = {};
+    data['status'] = value;
+    data['_id'] = id;
+    console.log(data);
+    try {
+      const res = await updateUser(data);
+    } catch (err) {
+      console.log(err);
+    }
+    
+  }
 
   const getUsers = (current) => {
     setLoading(true);

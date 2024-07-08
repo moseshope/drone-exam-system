@@ -1,4 +1,4 @@
-import { getRequest } from "./axiosClient";
+import { getRequest, postRequest } from "./axiosClient";
 
 export const getAllUsers = async (query) => {
   try {
@@ -20,3 +20,5 @@ export const getUserCount = (query) => getRequest("users/getUserCount", query);
 export const checkLastStatus = () => getRequest("users/checkLastStatus");
 
 export const updateUserStatus = () => getRequest("users/updateUserStatus");
+
+export const updateUser = (data) => postRequest("users/updateUser", data);

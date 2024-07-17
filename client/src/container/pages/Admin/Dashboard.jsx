@@ -126,7 +126,7 @@ function Dashboard() {
           </div>
         </Col>    
       </div>
-      <Row gutter={[64, 64]} style={{'overflow-x': 'auto', "width": '100%'}}>
+      <Row gutter={[64, 64]} className="!mr-0 !ml-0">
         <Col sm={12} md={8} lg={6} xl={4}>
           <Search
             placeholder="Name..."
@@ -147,23 +147,25 @@ function Dashboard() {
             onSearch={onSearch}
           />
         </Col>
-        <Col span={24}>
+        <Col span={24} >
           <Table
             loading={loading}
             dataSource={exams}
             pagination={false}
+            style={{'overflow-x': 'auto'}}
           >
             <Column
               title="No"
               dataIndex="_id"
               key="no"
-              width="70px"
+              width="10px"
               render={(_, row, index) => <>{(page - 1) * pageSize + index + 1}</>}
             />
             <Column 
               title="Profile"
               dataIndex="name"
               key="name"
+              width="10px"
               render={(_, row) => (
                 <div className="flex items-center">
                   <Avatar 

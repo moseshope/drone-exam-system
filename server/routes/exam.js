@@ -12,5 +12,6 @@ router.get(
   examController.getLastExam
 );
 router.post("/saveExam", examController.saveExam);
+router.get("/getExamProblems", checkRoles([ROLES.ADMIN]), examController.getExamProblems);
 
 module.exports = router;

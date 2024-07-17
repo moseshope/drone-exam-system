@@ -257,7 +257,6 @@ exports.updateUserStatus = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    console.log('-----------------------------', req);
     const { _id, status } = req.body;
     // Ensure the status is updated properly
     const response = await User.findByIdAndUpdate(

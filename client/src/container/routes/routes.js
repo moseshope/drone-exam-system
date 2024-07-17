@@ -36,6 +36,12 @@ const routes = [
     exact: true,
     isAdmin: true,
   },
+  {
+    path: "admin/examDetail/:id",
+    component: lazy(() => import("../pages/Admin/ExamDetail")),
+    exact: true,
+    isAdmin: true,
+  },
 ];
 
 export default routes;

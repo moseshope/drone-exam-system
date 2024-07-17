@@ -12,6 +12,7 @@ exports.saveExam = async (req, res) => {
       score4: req.body.score[3],
       score5: req.body.score[4],
       score: req.body.score[5],
+      problems: req.body.problems
     });
 
     await newExam.save();
@@ -78,6 +79,7 @@ exports.getAllExam = async (req, res) => {
     const skip = (page - 1) * limit;
     const total = await ExamModel.countDocuments(examFilter);
     const exams = await ExamModel.find(examFilter)
+    .sort({ createdAt: -1 })
       .populate("user", "-password") // Populate user information, excluding password
       .skip(skip)
       .limit(limit);
@@ -164,3 +166,20 @@ exports.getLastExam = async (req, res) => {
     });
   }
 };
+
+exports.getExamProblems = async (req, res) => {
+  const {_id} = req.query;
+  console.log(_id);
+  try {
+    const examData = await ExamModel.findById(_id);
+    return res.json({
+      success: true,
+      exam: examData
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}

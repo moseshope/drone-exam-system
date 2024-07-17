@@ -14,6 +14,18 @@ const ExamSchema = new mongoose.Schema(
     score3: Number,
     score4: Number,
     score5: Number,
+    problems: [
+      {
+        prob_no: Number,
+        prob_content: String,
+        avail_answers: [
+        ],
+        cor_answer: Number,
+        result: Number,
+        category: String,
+        cor_description: String
+      }
+    ],
   },
   { timestamps: true }
 );

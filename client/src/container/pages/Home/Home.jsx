@@ -251,8 +251,8 @@ const Home = () => {
 
   const saveExamination = async (score) => {
     try {
-      if(parseInt(limit) == 11) {
-        const res = saveExam({score: score});
+      if(parseInt(limit) == 60) {
+        const res = saveExam({score: score, problems: examProblems});
       }
     } catch (err) {
       console.log(err);

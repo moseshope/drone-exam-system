@@ -19,13 +19,13 @@ import {
 } from "antd";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
-import constants from "../../../config/constants";
-import { updatePageState } from "../../../redux/exam/examSlice";
-
-import { getAllExams } from "../../../services/examAPI";
+import ExamDetail from "./ExamDetail";
 import useForm from "../../../Hooks/useForm";
+import constants from "../../../config/constants";
+import { getAllExams } from "../../../services/examAPI";
+import { updatePageState } from "../../../redux/exam/examSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 const { Content } = Layout;
@@ -33,7 +33,7 @@ const { Content } = Layout;
 function Exams() {
 
   const dispatch = useDispatch();
-
+  // const navigate = useNavigate();
   const pageState = useSelector(state => state.exam);
 
   const [exams, setExams] = useState([]);
@@ -42,7 +42,11 @@ function Exams() {
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState(pageState.pageSize);
   const [formData, handleChange] = useForm({});
-  const [form] = Form.useForm();
+
+  // const viewExamDetail = (exam_id) => {
+  //   console.log(exam_id);
+  //   navigate('/admin/examDetail')
+  // }
 
   const columns = [
     {
@@ -77,6 +81,16 @@ function Exams() {
       render: (_) => {
         return moment(_).format("MM/DD/YY hh:mm A");
       },
+    },
+    {
+      title: "Action",
+      dataIndex: "_id",
+      key: "action",
+      render: (_, row) => <div className='flex items-center'>
+          <Link to={`/admin/examDetail/${_}`}><Button type="primary" onClick={() => {
+            // viewExamDetail(row._id);
+          }}>View Detail</Button></Link>
+        </div>
     },
   ];
 

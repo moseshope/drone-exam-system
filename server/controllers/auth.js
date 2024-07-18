@@ -256,3 +256,75 @@ exports.resetPassword = async (req, res) => {
         });
     }
 }
+
+exports.addNewUser = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        const { utm_source, utm_capmaign, utm_medium, utm_content } = req.query;
+
+        const escapedEmail = email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        // Create a case-insensitive regular expression with the escaped email
+        const emailRegex = new RegExp(`^${escapedEmail}$`, 'i');
+
+        const existUser = await User.findOne({ email: emailRegex });
+        if (existUser) {
+            let message = "This email has already been taken.";
+
+            if (existUser.status == 2) {
+                message = "This user deleted account manually. If you want to active this account, please contact to support.";
+            }
+            return res.status(422).json({
+                success: false,
+                errors: {
+                    email: message,
+                },
+            });
+        }
+
+        const status = 1;
+
+        const user = new User({
+            name,
+            email,
+            password,
+            utm_source,
+            utm_capmaign,
+            utm_medium,
+            utm_content,
+            status
+        });
+
+        await user.save();
+
+        const newUser = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.permission == 1,
+        };
+
+        // const access_token = jwt.sign(newUser, config.SecretKey, {
+        //     expiresIn: config.TOKEN_EXPIRES_IN,
+        // });
+        // sendEmail({
+        //     from: process.env.FROM_ADDRESS,
+        //     to: user.email,
+        //     subject: "Welcome to RealtyGenius.AI",
+        //     html: 'welcome',
+        //     data: {
+        //         name: user.name
+        //     }
+        // });
+        sendNotification("New user registered!");
+        return res.status(200).json({
+            success: true,
+            user: newUser,
+            // token: `jwt ${access_token}`,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+        });
+    }
+};

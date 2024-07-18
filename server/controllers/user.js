@@ -75,13 +75,13 @@ exports.upload = async (req, res) => {
       delFile(`public${oldFile}`);
     }
 
-    req.user.avatar = file.path.replace(/\\/g, "/").replace("public/", "/");
+    req.user.avatar = file.path.replace(/\\/g, "/").replace("public/", "");
 
     await req.user.save();
 
     return res.json({
       success: true,
-      path: file.path.replace(/\\/g, "/").replace("public/", "/"),
+      path: file.path.replace(/\\/g, "/").replace("public/", ""),
       filename: file.originalname,
     });
   } catch (error) {

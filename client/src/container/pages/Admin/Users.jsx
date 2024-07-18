@@ -11,6 +11,7 @@ import {
   Modal,
   Form,
   InputNumber,
+  notification,
   Tooltip,
   message,
   Layout,
@@ -18,13 +19,14 @@ import {
   Avatar,
   Switch
 } from "antd";
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import constants from "../../../config/constants";
 import { updatePageState } from "../../../redux/user/userSlice";
+import { addNewUser } from "../../../services/authAPI";
 
 import { getAllUsers, updateUser } from "../../../services/userAPI";
 import useForm from "../../../Hooks/useForm";
@@ -32,6 +34,13 @@ import useForm from "../../../Hooks/useForm";
 
 const { Search } = Input;
 const { Content } = Layout;
+const showNitication = (type, message, description) => {
+  notification[type]({
+    message: message,
+    description: description,
+    placement: 'bottomRight',
+  });
+};
 
 function Users() {
 
@@ -48,6 +57,13 @@ function Users() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [formData, handleChange] = useForm({});
   const [form] = Form.useForm();
+  const [openModal, setOpenModal] = useState(false);
+  const errors = {}
+
+  const initModalStatus = () => {
+    form.setFieldsValue([]);
+    setOpenModal(false);
+  }
 
   const columns = [
     {
@@ -103,7 +119,7 @@ function Users() {
     } catch (err) {
       console.log(err);
     }
-    
+
   }
 
   const getUsers = (current) => {
@@ -137,10 +153,29 @@ function Users() {
     }
   };
 
+  const registeNewUser = async (values) => {
+    try {
+      const res = await addNewUser(values);
+      showNitication('success', 'Success', 'Successfully added!');
+      getUsers();
+      initModalStatus();
+    } catch {
+      showNitication('error', 'Error', 'Failed to add user');
+    }
+  }
+
+  const openUserModal = () => {
+    form.resetFields();
+    setOpenModal(true);
+  }
+
   return (
     <Content className="mx-auto p-2 px-5 my-5">
       <Row gutter={[16, 16]}>
-        <Col sm={12} md={8} lg={6} xl={4}>
+        <Col span={24}>
+          <div style={{ "float": "right" }}><Button type="primary" icon={<PlusOutlined />} onClick={() => openUserModal()}>Add</Button></div>
+        </Col>
+        <Col sm={8} md={8} lg={6} xl={4}>
           <Search
             placeholder="Name..."
             allowClear
@@ -150,7 +185,7 @@ function Users() {
             onSearch={onSearch}
           />
         </Col>
-        <Col sm={12} md={8} lg={6} xl={4}>
+        <Col sm={8} md={8} lg={6} xl={4}>
           <Search
             placeholder="Email..."
             allowClear
@@ -160,6 +195,7 @@ function Users() {
             onSearch={onSearch}
           />
         </Col>
+
         <Col span={24}>
           <Table
             loading={loading}
@@ -179,6 +215,88 @@ function Users() {
           </div>
         </Col>
       </Row>
+      <Modal title={'New User'} centered open={openModal} width={1024} /* onOk={() => registeNewUser()} */ onCancel={() => initModalStatus()} footer={[
+        <Button key="submit" type="primary" onClick={() => form.submit()}>
+          Save
+        </Button>,
+        <Button key="back" type="primary" onClick={() => initModalStatus()}>
+          Cancel
+        </Button>,
+      ]}>
+        <Form
+          name="register1"
+          form={form}
+          className="form"
+          scrollToFirstError
+          onFinish={registeNewUser}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: 'Please input User Name!',
+              },
+            ]}
+          >
+            <Input size="large"
+              placeholder="Name"
+            />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input E-mail!',
+              },
+            ]}
+            validateStatus={errors.email ? 'error' : ''}
+            help={errors.email}
+          >
+            <Input size='large'
+              placeholder="E-mail" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input password!',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password size="large" placeholder="Password" />
+          </Form.Item>
+          <Form.Item
+            name="confirm"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                },
+              }),
+            ]}
+          >
+            <Input.Password size="large" placeholder="Confirm Password" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Content>
   );
 }

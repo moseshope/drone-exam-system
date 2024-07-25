@@ -1,5 +1,4 @@
-const { count } = require("console");
-const ProblemsModel = require("../models/problems.js");
+const ProblemsModel = require("../models/problems");
 
 exports.getProblems = async (req, res) => {
   try {
@@ -138,7 +137,7 @@ exports.getAllProblems = async (req, res) => {
 
 exports.updateProblem = async (req, res) => {
   try {
-    let problem = req.query.data;
+    let problem = req.body.data;
     problem.avail_answers = new Array(3);
     problem["avail_answers"][0] = problem.avail_answer_1;
     problem["avail_answers"][1] = problem.avail_answer_2;
@@ -147,12 +146,12 @@ exports.updateProblem = async (req, res) => {
     delete problem.avail_answer_2;
     delete problem.avail_answer_3;
 
-    const result = await ProblemsModel.findByIdAndUpdate(
-      problem._id,
-      problem, // Spread the fields of `problem` directly
+    let { _id, ...rest } = problem;
+    const result = await ProblemsModel.findOneAndUpdate(
+      {_id: problem._id},
+      { $set: { ...rest } }, // Spread the fields of `problem` directly
       {
         new: true,
-        useFindAndModify: false, // Add this option to avoid deprecation warning
       }
     );
 

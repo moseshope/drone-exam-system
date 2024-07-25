@@ -17,7 +17,7 @@ router.post(
   checkRoles([ROLES.ADMIN]),
   problemController.addProblem
 );
-router.get(
+router.post(
   "/updateProblem",
   checkRoles([ROLES.ADMIN]),
   problemController.updateProblem

@@ -19,7 +19,7 @@ export const getProblemCount = (query) =>
 export const getProblems = (query) => getRequest("problems/getProblems", query);
 export const getExamProblems = (query) => getRequest("exams/getExamProblems", query);
 export const addProblems = (data) => postRequest("problems/addProblem", data);
-export const updateProblem = (query) =>
-  getRequest("problems/updateProblem", query);
+export const updateProblem = (data) =>
+  postRequest("problems/updateProblem", data);
 export const deleteProblem = (query) =>
   getRequest("problems/deleteProblem", query);

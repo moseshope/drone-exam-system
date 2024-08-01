@@ -88,7 +88,7 @@ function Database() {
       key: "dir",
       width: "400px",
       render: (_, row) => <div className='flex items-center'>
-        <a href={`${constants.SOCKET_URL}/db/${row.fileName}`} className='ml-2'><b>{row.fileName}</b></a>
+        <a href={`https://exams.rapiduav.com/db/${row.fileName}`} className='ml-2'><b>{row.fileName}</b></a>
       </div>
     },
     {

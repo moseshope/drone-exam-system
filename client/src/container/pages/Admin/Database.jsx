@@ -22,7 +22,7 @@ function Database() {
 
   const dispatch = useDispatch();
 
-  const pageState = useSelector(state => state.problem);
+  const pageState = useSelector(state => state.database);
 
   const [dbList, setDBList] = useState([]);
   const [page, setPage] = useState(pageState.page);

@@ -8,6 +8,7 @@ const userRouter = require("./user");
 const planRouter = require("./plan");
 const problemsRouter = require("./problems");
 const examRouter = require("./exam");
+const dbRouter = require("./db");
 
 const authMiddleware = require("../middlewares/auth");
 
@@ -24,5 +25,6 @@ router.use("/users", jwtAuth, userRouter);
 router.use("/plans", jwtAuth, planRouter);
 router.use("/problems", jwtAuth, problemsRouter);
 router.use("/exams", jwtAuth, examRouter);
+router.use("/db", dbRouter);
 
 module.exports = router;

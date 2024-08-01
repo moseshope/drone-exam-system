@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Dropdown } from 'antd';
-import { LockOutlined, UserOutlined, AuditOutlined, SafetyOutlined, IdcardOutlined, BankOutlined, CommentOutlined, FileImageOutlined, TrophyOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined, AuditOutlined, SafetyOutlined, IdcardOutlined, BankOutlined, CommentOutlined, FileImageOutlined, TrophyOutlined, DatabaseOutlined } from '@ant-design/icons';
 
 import { logout } from '../../../redux/auth/authSlice';
 
@@ -62,6 +62,11 @@ const UserMenu = () => {
           label: 'Exams',
           key: '/admin/exams',
           icon: <AuditOutlined />
+        },
+        {
+          label: 'Database',
+          key: '/admin/database',
+          icon: <DatabaseOutlined />
         }
       ]
     },

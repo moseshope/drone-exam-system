@@ -15,6 +15,9 @@ const webhook = require("./controllers/webhook");
 const api = require("./routes");
 const UserModel = require("./models/userModel");
 const { _log, _error } = require("./utils/logging");
+const cron = require('node-cron');
+const { backup } = require("./controllers/db")
+
 
 // const sharp = require("sharp");
 // const request = require('request');
@@ -57,6 +60,11 @@ app.get("/*", function (req, res) {
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
+});
+
+cron.schedule('0 0 * * 0', () => {
+  console.log('Running scheduled backup...');
+  backup();
 });
 
 const PORT = process.env.PORT || 5000;

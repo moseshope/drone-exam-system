@@ -42,6 +42,12 @@ const routes = [
     exact: true,
     isAdmin: true,
   },
+  {
+    path: "admin/database",
+    component: lazy(() => import("../pages/Admin/Database")),
+    exact: true,
+    isAdmin: true,
+  },
 ];
 
 export default routes;

@@ -144,6 +144,7 @@ const ExamDetail = () => {
                 className="problem text-black"
               >
                 <h2>{problem.label}</h2>
+                <p className="prob-content text-blue-700 mb-0 !pb-0">Question No: {examProblems[index].prob_no}</p>
                 <p className="prob-content text-blue-700">{examProblems[index].prob_content}</p>
                 <Radio.Group
                   className=" w-full p-5 text-black"

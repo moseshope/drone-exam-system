@@ -9,6 +9,7 @@ const planRouter = require("./plan");
 const problemsRouter = require("./problems");
 const examRouter = require("./exam");
 const dbRouter = require("./db");
+const refRouter = require("./references");
 
 const authMiddleware = require("../middlewares/auth");
 
@@ -26,5 +27,6 @@ router.use("/plans", jwtAuth, planRouter);
 router.use("/problems", jwtAuth, problemsRouter);
 router.use("/exams", jwtAuth, examRouter);
 router.use("/db", dbRouter);
+router.use("/references", jwtAuth, refRouter);
 
 module.exports = router;

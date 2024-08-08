@@ -65,6 +65,9 @@ function AuthLayout({ children }) {
                 <Link to="/home" className="mr-2 sm:mr-6">
                   Home
                 </Link>
+                <Link to="/references" className="mr-2 sm:mr-6">
+                  References
+                </Link>
               </div>
               {/* <div className="mr-2 sm:mr-6">
                 <Button type="primary" icon={<FileAddOutlined />} onClick={() => {

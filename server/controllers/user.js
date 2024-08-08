@@ -76,6 +76,7 @@ exports.upload = async (req, res) => {
     }
 
     req.user.avatar = file.path.replace(/\\/g, "/").replace("public/", "");
+    console.log(file);
 
     await req.user.save();
 

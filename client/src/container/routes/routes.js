@@ -48,6 +48,11 @@ const routes = [
     exact: true,
     isAdmin: true,
   },
+  {
+    path: "/references",
+    component: lazy(() => import("../pages/References/References")),
+    exact: true,
+  },
 ];
 
 export default routes;

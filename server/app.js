@@ -8,7 +8,7 @@ const dayjs = require("dayjs");
 const morgan = require("morgan");
 const { scheduleJob } = require("node-schedule");
 const chalk = require("chalk");
-
+const bodyParser = require('body-parser');
 const config = require("./config");
 const socketIO = require("./socket");
 const webhook = require("./controllers/webhook");
@@ -55,6 +55,9 @@ app.use("/api", api);
 app.get("/*", function (req, res) {
   res.sendFile(path.resolve(__dirname, "public/index.html"));
 });
+
+app.use(bodyParser.json({ limit: '1gb' }));
+app.use(bodyParser.urlencoded({ limit: '1gb', extended: true }));
 
 // Handle errors.
 app.use(function (err, req, res, next) {

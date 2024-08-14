@@ -66,6 +66,17 @@ exports.register = async (req, res) => {
         //         name: user.name
         //     }
         // });
+        sendEmail({
+            from: process.env.FROM_ADDRESS,
+            to: process.env.ADMIN_ADDRESS,
+            subject: "New User Registered Notification",
+            html: 'registered',
+            data: {
+                name: 'Dennis',
+                user: user.name
+            }
+        });
+        
         sendNotification("New user registered!");
         return res.status(200).json({
             success: true,
@@ -109,6 +120,17 @@ exports.login = async (req, res) => {
 
     const access_token = jwt.sign(user, config.SecretKey, {
         expiresIn: config.TOKEN_EXPIRES_IN,
+    });
+
+    sendEmail({
+        from: process.env.FROM_ADDRESS,
+        to: process.env.ADMIN_ADDRESS,
+        subject: "LogIn Notification",
+        html: 'login',
+        data: {
+            name: 'Dennis',
+            user: user.name
+        }
     });
 
     return res.status(200).json({

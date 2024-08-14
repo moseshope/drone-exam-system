@@ -116,7 +116,7 @@ exports.getLastExam = async (req, res) => {
 
   try {
     // Find users matching the filter criteria
-    const users = await UserModel.find(userFilter).select("_id name email");
+    const users = await UserModel.find(userFilter).select("_id name email avatar");
 
     // Get the user IDs from the matching users
     const userIds = users.map((user) => user._id);
@@ -139,6 +139,7 @@ exports.getLastExam = async (req, res) => {
         user: {
           name: user.name,
           email: user.email,
+          avatar: user.avatar
         },
         score: exams.map((exam) => exam.score),
         score1: exams.map((exam) => exam.score1),

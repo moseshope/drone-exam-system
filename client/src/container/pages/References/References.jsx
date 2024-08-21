@@ -17,6 +17,7 @@ import constants from "../../../config/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePageState } from "../../../redux/references/refSlice";
 import { del, getAll} from "../../../services/refAPI";
+import { pushAlert } from "../../../services/alertAPI";
 import useForm from "../../../Hooks/useForm";
 import { getStorage } from '../../../helpers';
 import moment from "moment";
@@ -27,7 +28,6 @@ const { Content } = Layout;
 function References() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
-  console.log(user);
   const pageState = useSelector((state) => state.references) || {
     page: 1,
     total: 0,
@@ -100,7 +100,7 @@ function References() {
           "Authorization": getStorage("token"),
         }
       });
-
+      await pushAlert({title: 'New Reference is added!', content: 'Click here to check the new Reference'});
       showNotification("success", "Success", "Successfully added!");
     } catch (error) {
       showNotification("error", "Error", "Failed to add Reference");

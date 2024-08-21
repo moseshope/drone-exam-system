@@ -10,6 +10,7 @@ const problemsRouter = require("./problems");
 const examRouter = require("./exam");
 const dbRouter = require("./db");
 const refRouter = require("./references");
+const alertRouter = require("./alert");
 
 const authMiddleware = require("../middlewares/auth");
 
@@ -28,5 +29,6 @@ router.use("/problems", jwtAuth, problemsRouter);
 router.use("/exams", jwtAuth, examRouter);
 router.use("/db", dbRouter);
 router.use("/references", jwtAuth, refRouter);
+router.use("/alert", jwtAuth, alertRouter);
 
 module.exports = router;

@@ -122,17 +122,18 @@ exports.login = async (req, res) => {
         expiresIn: config.TOKEN_EXPIRES_IN,
     });
 
-    sendEmail({
-        from: process.env.FROM_ADDRESS,
-        to: process.env.ADMIN_ADDRESS,
-        subject: "LogIn Notification",
-        html: 'login',
-        data: {
-            name: 'Dennis',
-            user: user.name
-        }
-    });
-
+    if ( !user.isAdmin ) {
+        sendEmail({
+            from: process.env.FROM_ADDRESS,
+            to: process.env.ADMIN_ADDRESS,
+            subject: "LogIn Notification",
+            html: 'login',
+            data: {
+                name: 'Dennis',
+                user: user.name
+            }
+        });
+    }
     return res.status(200).json({
         success: true,
         user,

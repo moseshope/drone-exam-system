@@ -43,7 +43,7 @@ function AuthLayout({ children }) {
       console.log(tempItems);
       const tempMenuItems = tempItems.map((tempItem, index) => ({
         label: (
-          <div>
+          <div onClick={() => navigate('/references')}>
             <h4>{tempItem.title}</h4>
             <p>{tempItem.content}</p>
           </div>
@@ -112,8 +112,8 @@ function AuthLayout({ children }) {
                     e.preventDefault();
                     updateAlert();
                   }}>
-                    <BellOutlined />
-                    {counts > 0 && <span className="text-red-500">{counts}</span>}
+                    { counts > 0 ? <BellOutlined className="text-[#ff7875]" /> : <BellOutlined /> }
+                    {counts > 0 && <span className="text-[#ff7875]">{counts}</span>}
                   </a>
                 </Dropdown>
               </div>
